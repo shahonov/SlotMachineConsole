@@ -27,7 +27,9 @@ namespace SlotMachineConsole
         {
             while (bookie.User.CoverStake(bookie.SpinStake))
             {
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("---------- User Amount: " + bookie.User.Amount);
+                Console.ResetColor();
 
                 var winAmount = this.GetWinAmount(bookie);
                 if (winAmount > 0)
@@ -35,18 +37,43 @@ namespace SlotMachineConsole
                     bookie.User.Amount += winAmount;
                 }
 
-                Console.WriteLine("----------- Win Amount: " + winAmount);
-                Console.WriteLine("---------- User Amount: " + bookie.User.Amount);
+                this.PrintStats(winAmount, bookie.User.Amount);
 
                 if (bookie.User.Amount == 0)
                 {
                     break;
                 }
 
+                Console.WriteLine($"---------------------------");
                 bookie.SpinStake = this.SetStake(bookie.User);
             }
 
             Console.WriteLine("**-----GAME OVER-----**");
+        }
+
+        private void PrintStats(double winAmount, double userAmount)
+        {
+            if (winAmount > 0)
+            {
+                this.PrintStats(winAmount, userAmount, ConsoleColor.Green);
+            }
+            else
+            {
+                this.PrintStats(winAmount, userAmount, ConsoleColor.Red);
+            }
+
+            Console.ResetColor();
+        }
+
+        private void PrintStats(double winAmount, double userAmount, ConsoleColor color)
+        {
+            Console.Write("----------- ");
+            Console.ForegroundColor = color;
+            Console.WriteLine("Win Amount: " + winAmount);
+            Console.ResetColor();
+            Console.Write("---------- ");
+            Console.ForegroundColor = color;
+            Console.WriteLine("User Amount: " + userAmount);
         }
 
         private User CreateUser()

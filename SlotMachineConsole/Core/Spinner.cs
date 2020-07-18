@@ -20,19 +20,33 @@ namespace SlotMachineConsole.Core
                 var matchResult = this._matcher.IsMatch(row[0], row[1], row[2]);
                 if (matchResult.IsMatch)
                 {
-                    Console.WriteLine($"| {row[0]}---{row[1]}---{row[2]} | WIN COEF: {matchResult.WinCoefficient}");
+                    Console.Write("| ");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write($"{row[0]}---{row[1]}---{row[2]}");
+                    Console.ResetColor();
+                    Console.Write(" | ");
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.WriteLine($"WIN COEF: {matchResult.WinCoefficient}");
+                    Console.ResetColor();
                     totalCoef += matchResult.WinCoefficient;
                 }
                 else
                 {
-                    Console.WriteLine($"| {row[0]} | {row[1]} | {row[2]} |");
+                    Console.Write("| ");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write($"{row[0]} | {row[1]} | {row[2]}");
+                    Console.ResetColor();
+                    Console.WriteLine(" |");
                 }
             }
 
             if (totalCoef > 0)
             {
                 Console.WriteLine($"---------------------------");
-                Console.WriteLine($"------- TOTAL WIN COEF: {totalCoef}");
+                Console.Write("------- ");
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine($"TOTAL WIN COEF: {totalCoef}");
+                Console.ResetColor();
             }
 
             return totalCoef;
