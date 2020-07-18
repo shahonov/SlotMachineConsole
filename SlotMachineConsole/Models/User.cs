@@ -2,11 +2,29 @@
 {
     public class User
     {
-        public User(decimal deposit)
+        private double _amount;
+
+        public User(double deposit)
         {
-            this.Deposit = deposit;
+            this.Amount = deposit;
         }
 
-        public decimal Deposit { get; set; }
+        public double Amount
+        {
+            get
+            {
+                return this._amount;
+            }
+            set
+            {
+                var rounded = string.Format("{0:0.00}", value);
+                this._amount = double.Parse(rounded);
+            }
+        }
+
+        public bool CoverStake(double stake)
+        {
+            return this.Amount - stake >= 0;
+        }
     }
 }

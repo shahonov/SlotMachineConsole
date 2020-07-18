@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace SlotMachineConsole.Core
 {
     public class Engine
     {
-        private readonly Renderer _renderer;
-        private readonly Matcher _matcher;
+        private readonly Spinner _spinner;
         private List<char> _symbols;
         private readonly List<List<char>> _slots;
 
         public Engine()
         {
+            this._spinner = new Spinner();
             this.InitSymbols();
             this._slots = new List<List<char>>
             {
@@ -23,7 +24,7 @@ namespace SlotMachineConsole.Core
             };
         }
 
-        public void Spin()
+        public double Spin()
         {
             for (var i = 0; i < this._slots.Count; i++)
             {
@@ -35,6 +36,9 @@ namespace SlotMachineConsole.Core
                     this._slots[i][ii] = symbol;
                 }
             }
+
+            var coef = this._spinner.Go(this._slots);
+            return coef;
         }
 
         private void InitSymbols()

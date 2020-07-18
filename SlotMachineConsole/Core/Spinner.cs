@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace SlotMachineConsole.Core
 {
-    public class Renderer
+    public class Spinner
     {
         private readonly Matcher _matcher;
 
-        public Renderer()
+        public Spinner()
         {
             this._matcher = new Matcher();
         }
 
-        public void Render(List<List<char>> slots)
+        public double Go(List<List<char>> slots)
         {
             var totalCoef = 0d;
             foreach (var row in slots)
@@ -34,6 +34,8 @@ namespace SlotMachineConsole.Core
                 Console.WriteLine($"---------------------------");
                 Console.WriteLine($"------- TOTAL WIN COEF: {totalCoef}");
             }
+
+            return totalCoef;
         }
     }
 }

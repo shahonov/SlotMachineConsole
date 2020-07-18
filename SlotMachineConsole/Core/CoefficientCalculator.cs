@@ -22,7 +22,7 @@ namespace SlotMachineConsole.Core
             {
                 return this.CalcMatch(this._pineappleCoef, wildcards);
             }
-            else if (symbol == '*')
+            else if (symbol == '*' || symbol == 'o')
             {
                 return 0;
             }
