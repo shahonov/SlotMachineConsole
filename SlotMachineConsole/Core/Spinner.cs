@@ -45,7 +45,7 @@ namespace SlotMachineConsole.Core
                 Console.WriteLine($"---------------------------");
                 Console.Write("------- ");
                 Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.WriteLine($"TOTAL WIN COEF: {totalCoef}");
+                Console.WriteLine($"TOTAL WIN COEF: {string.Format("{0:0.00}", totalCoef)}");
                 Console.ResetColor();
             }
 

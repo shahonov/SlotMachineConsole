@@ -1,6 +1,6 @@
 ﻿namespace SlotMachineConsole.Models
 {
-    public class RowResult
+    public class RowResult : IMatchResult
     {
         public RowResult(bool isMatch, char winChar, double winCoef)
         {

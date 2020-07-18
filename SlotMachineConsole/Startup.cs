@@ -27,10 +27,6 @@ namespace SlotMachineConsole
         {
             while (bookie.User.CoverStake(bookie.SpinStake))
             {
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("---------- User Amount: " + bookie.User.Amount);
-                Console.ResetColor();
-
                 var winAmount = this.GetWinAmount(bookie);
                 if (winAmount > 0)
                 {
@@ -102,6 +98,10 @@ namespace SlotMachineConsole
         private double GetWinAmount(Bookie bookie)
         {
             bookie.User.Amount -= bookie.SpinStake;
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("---------- User Amount: " + bookie.User.Amount);
+            Console.ResetColor();
+
             var winCoef = this._engine.Spin();
             var winAmount = string.Format("{0:0.00}", winCoef * bookie.SpinStake);
 

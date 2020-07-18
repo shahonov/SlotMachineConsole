@@ -4,19 +4,21 @@ namespace SlotMachineConsole.Core
 {
     public class Matcher
     {
+        private readonly ResultFactory _factory;
         private readonly CoefficientCalculator _coefficientCalculator;
 
         public Matcher()
         {
+            this._factory = new ResultFactory();
             this._coefficientCalculator = new CoefficientCalculator();
         }
 
-        public RowResult IsMatch(char a, char b, char c)
+        public IMatchResult IsMatch(char a, char b, char c)
         {
             if (a == b && b == c)
             {
                 var coef = this._coefficientCalculator.Calculate(a, 0);
-                return new RowResult(true, a, coef);
+                return this._factory.ProduceTruthy(a, coef);
             }
 
             var oneWildMatch = this.IsOneWildcardMatch(a, b, c);
@@ -31,53 +33,53 @@ namespace SlotMachineConsole.Core
                 return twoWildsMatch;
             }
 
-            return new RowResult(false, 'o', 0);
+            return this._factory.ProduceFalsy();
         }
 
-        private RowResult IsOneWildcardMatch(char a, char b, char c)
+        private IMatchResult IsOneWildcardMatch(char a, char b, char c)
         {
             if (a == '*' && b == c)
             {
                 var coef = this._coefficientCalculator.Calculate(b, 1);
-                return new RowResult(true, b, coef);
+                return this._factory.ProduceTruthy(b, coef);
             }
 
             if (b == '*' && a == c)
             {
                 var coef = this._coefficientCalculator.Calculate(a, 1);
-                return new RowResult(true, a, coef);
+                return this._factory.ProduceTruthy(a, coef);
             }
 
             if (c == '*' && a == b)
             {
                 var coef = this._coefficientCalculator.Calculate(a, 1);
-                return new RowResult(true, a, coef);
+                return this._factory.ProduceTruthy(a, coef);
             }
 
-            return new RowResult(false, 'o', 0);
+            return this._factory.ProduceFalsy();
         }
 
-        private RowResult IsTwoWildcardsMatch(char a, char b, char c)
+        private IMatchResult IsTwoWildcardsMatch(char a, char b, char c)
         {
             if (a == '*' && b == '*')
             {
                 var coef = this._coefficientCalculator.Calculate(c, 2);
-                return new RowResult(true, c, coef);
+                return this._factory.ProduceTruthy(c, coef);
             }
 
-            if (b == '*' && a == c)
-            {
-                var coef = this._coefficientCalculator.Calculate(c, 2);
-                return new RowResult(true, c, coef);
-            }
-
-            if (c == '*' && a == b)
+            if (b == '*' && c == '*')
             {
                 var coef = this._coefficientCalculator.Calculate(a, 2);
-                return new RowResult(true, a, coef);
+                return this._factory.ProduceTruthy(a, coef);
             }
 
-            return new RowResult(false, 'o', 0);
+            if (c == '*' && a == '*')
+            {
+                var coef = this._coefficientCalculator.Calculate(b, 2);
+                return this._factory.ProduceTruthy(b, coef);
+            }
+
+            return this._factory.ProduceFalsy();
         }
     }
 }
